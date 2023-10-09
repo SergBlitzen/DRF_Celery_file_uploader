@@ -2,12 +2,12 @@ from pathlib import Path
 
 from django.core import files
 from django.core.files.storage import FileSystemStorage
-from celery import shared_task
 
+from file_uploader.celery import app
 from files.models import File
 
 
-@shared_task()
+@app.task()
 def handle_file(file_type, *args):
 
     # Простейший менеджер для обработки.
@@ -25,7 +25,7 @@ def handle_file(file_type, *args):
         process_other_file_type(*args)
 
 
-@shared_task()
+@app.task()
 def process_image(instance_id, path, file_name):
     storage = FileSystemStorage()
     path_object = Path(path)
@@ -43,7 +43,7 @@ def process_image(instance_id, path, file_name):
     storage.delete(file_name)
 
 
-@shared_task()
+@app.task()
 def process_text(instance_id, path, file_name):
     storage = FileSystemStorage()
     path_object = Path(path)
@@ -61,7 +61,7 @@ def process_text(instance_id, path, file_name):
     storage.delete(file_name)
 
 
-@shared_task()
+@app.task()
 def process_audio(instance_id, path, file_name):
     storage = FileSystemStorage()
     path_object = Path(path)
@@ -79,7 +79,7 @@ def process_audio(instance_id, path, file_name):
     storage.delete(file_name)
 
 
-@shared_task()
+@app.task()
 def process_video(instance_id, path, file_name):
     storage = FileSystemStorage()
     path_object = Path(path)
@@ -97,7 +97,7 @@ def process_video(instance_id, path, file_name):
     storage.delete(file_name)
 
 
-@shared_task()
+@app.task()
 def process_application(instance_id, path, file_name):
     storage = FileSystemStorage()
     path_object = Path(path)
@@ -115,7 +115,7 @@ def process_application(instance_id, path, file_name):
     storage.delete(file_name)
 
 
-@shared_task()
+@app.task()
 def process_other_file_type(instance_id, path, file_name):
     storage = FileSystemStorage()
     path_object = Path(path)
