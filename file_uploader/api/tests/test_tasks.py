@@ -35,4 +35,3 @@ class TaskTestCase(TestCase):
         )
         time.sleep(1)
         self.assertEqual(self.task.state, 'SUCCESS')
-
