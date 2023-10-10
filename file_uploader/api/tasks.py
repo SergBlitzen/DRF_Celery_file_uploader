@@ -25,6 +25,8 @@ def handle_file(file_type, *args):
         process_other_file_type(*args)
 
 
+# Подразумевается разная логика обработки для разных типов,
+# поэтому вынесены отдельные функции.
 @app.task()
 def process_image(instance_id, path, file_name):
     storage = FileSystemStorage()
